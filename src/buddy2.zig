@@ -79,7 +79,7 @@ pub fn Buddy2Allocator(comptime config: Config) type {
         fn alignedAlloc(self: *Self, len: usize, log2_ptr_align: u8) ?[*]u8 {
             const alignment = @as(usize, 1) << @as(Allocator.Log2Align, @intCast(log2_ptr_align));
 
-            var unaligned_ptr = @as([*]u8, @ptrCast(self.unalignedAlloc(len + alignment - 1) orelse return null));
+            const unaligned_ptr = @as([*]u8, @ptrCast(self.unalignedAlloc(len + alignment - 1) orelse return null));
             const unaligned_addr = @intFromPtr(unaligned_ptr);
             const aligned_addr = mem.alignForward(usize, unaligned_addr, alignment);
 
